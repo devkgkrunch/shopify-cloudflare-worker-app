@@ -23,7 +23,6 @@ export default async function handleRequest(
 ) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), ABORT_DELAY);
-
   const body = await renderToReadableStream(
     <RemixServer
       context={remixContext}
@@ -41,9 +40,7 @@ export default async function handleRequest(
       },
     },
   );
-
   body.allReady.then(() => clearTimeout(timeoutId));
-
   if (isbot(request.headers.get("user-agent") || "")) {
     await body.allReady;
   }
